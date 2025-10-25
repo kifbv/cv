@@ -1,14 +1,14 @@
-## Features
+## ✨ Features
 
-- Responsive design
-- Tailwind CSS for styling
-- Floating PDF download button
-- Auto-generated PDF from HTML source (GitHub Actions automation)
-- Hosted on GitHub Pages
+- 📱 Responsive design
+- 🎨 Tailwind CSS for styling
+- 📥 Floating PDF download button
+- 🤖 Auto-generated PDF from HTML source (GitHub Actions automation)
+- 🚀 Hosted on GitHub Pages
 
-## Setup Instructions
+## 🛠️ Setup Instructions
 
-### 1. Enable GitHub Pages
+### 1️⃣ Enable GitHub Pages
 
 1. Go to your repository on GitHub
 2. Navigate to **Settings** → **Pages**
@@ -16,9 +16,9 @@
 4. Choose **main** branch and **/ (root)** folder
 5. Click **Save**
 
-The site will be available at: `https://<username>.github.io/cv/`
+The site will be available at: `https://<username>.github.io/cv/` 🌐
 
-### 2. Setup Custom Domain (Subdomain)
+### 2️⃣ Setup Custom Domain (Subdomain)
 
 1. In the DNS provider, add a CNAME record:
    - **Name**: `cv`
@@ -28,8 +28,8 @@ The site will be available at: `https://<username>.github.io/cv/`
    - Enter the custom domain: `cv.yourdomain.com`
    - Click **Save**
    - Wait for DNS check to complete
-   - Enable **Enforce HTTPS** (recommended)
+   - Enable **Enforce HTTPS** (recommended) 🔒
 
-## License
+## 📄 License
 
-This is a personal CV website. Feel free to fork and adapt for your own use.
+This is a personal CV website. Feel free to fork and adapt for your own use. 💼
