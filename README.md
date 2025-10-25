@@ -1,13 +1,13 @@
 # Franck Ratier - CV Website
 
-Professional CV website built with HTML5, Tailwind CSS, and vanilla JavaScript. Automatically generates PDF from DOCX using GitHub Actions.
+CV website built with HTML5, Tailwind CSS, and vanilla JavaScript. Automatically generates PDF from HTML using GitHub Actions.
 
 ## Features
 
 - Clean, responsive design optimized for desktop and mobile
 - Tailwind CSS for professional styling
 - Floating PDF download button
-- Auto-generated PDF from DOCX source (GitHub Actions automation)
+- Auto-generated PDF from HTML source (GitHub Actions automation)
 - GitHub Pages ready
 
 ## Setup Instructions
