@@ -1,6 +1,9 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 
+// Helper function to wait
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 (async () => {
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -16,13 +19,13 @@ const path = require('path');
   });
 
   // Wait for Tailwind CSS to fully load and apply
-  await page.waitForTimeout(1000);
+  await wait(1000);
 
   // Emulate print media to hide no-print elements
   await page.emulateMediaType('print');
 
   // Wait a bit more to ensure print styles are applied
-  await page.waitForTimeout(500);
+  await wait(500);
 
   // Generate PDF with proper settings
   await page.pdf({
