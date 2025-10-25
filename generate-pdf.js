@@ -15,6 +15,9 @@ const path = require('path');
     waitUntil: 'networkidle0'
   });
 
+  // Emulate print media to hide no-print elements
+  await page.emulateMediaType('print');
+
   // Generate PDF with proper settings
   await page.pdf({
     path: 'CV_Franck_Ratier_2025.pdf',
