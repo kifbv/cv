@@ -8,7 +8,7 @@
 
 ## 🛠️ Setup Instructions
 
-### 1️⃣ Enable GitHub Pages
+### Enable GitHub Pages
 
 1. Go to your repository on GitHub
 2. Navigate to **Settings** → **Pages**
@@ -18,7 +18,7 @@
 
 The site will be available at: `https://<username>.github.io/cv/` 🌐
 
-### 2️⃣ Setup Custom Domain (Subdomain)
+### Setup Custom Domain (Subdomain)
 
 1. In the DNS provider, add a CNAME record:
    - **Name**: `cv`
@@ -28,7 +28,7 @@ The site will be available at: `https://<username>.github.io/cv/` 🌐
    - Enter the custom domain: `cv.yourdomain.com`
    - Click **Save**
    - Wait for DNS check to complete
-   - Enable **Enforce HTTPS** (recommended) 🔒
+   - Enable **Enforce HTTPS** 🔒
 
 ## 📄 License
 
