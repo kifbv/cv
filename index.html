@@ -9,6 +9,34 @@
     <style>
         @media print {
             .no-print { display: none; }
+
+            /* Smaller fonts for PDF */
+            body { font-size: 10pt; }
+            h1 { font-size: 22pt !important; }
+            h2 { font-size: 16pt !important; }
+            h3 { font-size: 13pt !important; }
+            h4 { font-size: 11pt !important; }
+            p, li { font-size: 10pt !important; }
+
+            /* Reduce spacing to fit more content */
+            .container { padding: 0 !important; max-width: 100% !important; }
+            .bg-white { padding: 1rem !important; }
+            header { margin-bottom: 1rem !important; padding-bottom: 0.5rem !important; }
+            section { margin-bottom: 0.75rem !important; }
+            h3 { margin-bottom: 0.5rem !important; padding-bottom: 0.25rem !important; }
+            .mb-8 { margin-bottom: 0.75rem !important; }
+            .mb-6 { margin-bottom: 0.5rem !important; }
+            .mb-4 { margin-bottom: 0.5rem !important; }
+            .mb-3 { margin-bottom: 0.25rem !important; }
+            .mb-2 { margin-bottom: 0.25rem !important; }
+            ul { margin-top: 0.25rem !important; }
+            li { margin-bottom: 0.25rem !important; }
+
+            /* Clean background for PDF */
+            body { background: white !important; }
+            .bg-gray-50 { background: white !important; }
+            .shadow-lg { box-shadow: none !important; }
+            .rounded-lg { border-radius: 0 !important; }
         }
     </style>
 </head>
