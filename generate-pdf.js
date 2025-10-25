@@ -15,8 +15,14 @@ const path = require('path');
     waitUntil: 'networkidle0'
   });
 
+  // Wait for Tailwind CSS to fully load and apply
+  await page.waitForTimeout(1000);
+
   // Emulate print media to hide no-print elements
   await page.emulateMediaType('print');
+
+  // Wait a bit more to ensure print styles are applied
+  await page.waitForTimeout(500);
 
   // Generate PDF with proper settings
   await page.pdf({
