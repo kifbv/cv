@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pandoc:*)"
+      "Bash(pandoc:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

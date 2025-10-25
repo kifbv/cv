@@ -29,13 +29,12 @@ jobs:
       - name: Generate PDF from HTML
         run: node generate-pdf.js
 
-      - name: Commit and push PDF
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add CV_Franck_Ratier_2025.pdf
-          if ! git diff --staged --quiet; then
-            git commit -m "Auto-generate PDF from HTML"
-            git pull --rebase origin main
-            git push
-          fi
+      - name: Upload PDF to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest CV
+          body: Auto-generated PDF from HTML
+          files: CV_Franck_Ratier_2025.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
