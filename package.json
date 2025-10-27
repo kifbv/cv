@@ -1,10 +1,12 @@
 {
-  "name": "cv-pdf-generator",
+  "name": "cv-encrypted",
   "version": "1.0.0",
-  "description": "Generate PDF from CV HTML",
-  "main": "generate-pdf.js",
+  "description": "Encrypted CV with password-protected contact details",
+  "main": "encrypt-inject.js",
   "scripts": {
-    "generate-pdf": "node generate-pdf.js"
+    "encrypt": "node encrypt-inject.js index.html index-test.html",
+    "encrypt:plain": "node encrypt-inject.js index.html index-unencrypted.html --no-encrypt",
+    "test": "npm run encrypt && echo 'Test file created: index-test.html'"
   },
   "dependencies": {
     "puppeteer": "^24.15.0"

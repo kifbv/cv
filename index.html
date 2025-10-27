@@ -7,8 +7,13 @@
     <title>Franck Ratier - Platform Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @page {
+            margin: 0;
+        }
+
         @media print {
             .no-print { display: none !important; }
+            #unlockContactBtn { display: none !important; }
 
             /* Smaller fonts for PDF */
             body { font-size: 10pt; }
@@ -38,6 +43,59 @@
             .shadow-lg { box-shadow: none !important; }
             .rounded-lg { border-radius: 0 !important; }
         }
+
+        /* Modal and Error Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .error-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ef4444;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 101;
+            font-weight: 600;
+        }
+
+        .error-popup.active {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translate(-50%, -50%) translateX(10px); }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -55,11 +113,7 @@
             <header class="text-center mb-8 pb-8 border-b-2 border-gray-200">
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Franck Ratier</h1>
                 <h2 class="text-2xl md:text-3xl text-blue-600 font-semibold mb-3">Platform Engineer</h2>
-                <div class="text-gray-600 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
-                    <a href="mailto:ratier.franck@gmail.com" class="hover:text-blue-600 transition-colors">ratier.franck@gmail.com</a>
-                    <span class="hidden sm:inline">•</span>
-                    <span>+40 723 781 581</span>
-                </div>
+                <!-- CONTACT_DETAILS_PLACEHOLDER -->
             </header>
 
             <!-- Personal Profile -->
@@ -218,12 +272,163 @@
         </footer>
     </div>
 
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Enter Password</h3>
+            <p class="text-gray-600 mb-4">Please enter the password to view contact details:</p>
+            <input
+                type="password"
+                id="passwordInput"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4"
+                placeholder="Password"
+            />
+            <div class="flex gap-2 justify-end">
+                <button
+                    id="cancelBtn"
+                    class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors"
+                >
+                    Cancel
+                </button>
+                <button
+                    id="submitPasswordBtn"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                >
+                    Unlock
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="error-popup">
+        Incorrect password. Please try again.
+    </div>
+
     <script>
-        // Download PDF button functionality
+        // Download PDF button functionality - opens browser print dialog
         document.getElementById('downloadBtn').addEventListener('click', function() {
-            // This will download the PDF from GitHub Releases
-            window.location.href = 'https://github.com/kifbv/cv/releases/download/latest/CV_Franck_Ratier_2025.pdf';
+            window.print();
         });
+
+        // Contact details decryption functionality
+        const passwordModal = document.getElementById('passwordModal');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitPasswordBtn = document.getElementById('submitPasswordBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const errorPopup = document.getElementById('errorPopup');
+
+        // Show modal when unlock button is clicked
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'unlockContactBtn') {
+                passwordModal.classList.add('active');
+                passwordInput.focus();
+            }
+        });
+
+        // Cancel button
+        cancelBtn.addEventListener('click', function() {
+            passwordModal.classList.remove('active');
+            passwordInput.value = '';
+        });
+
+        // Submit password
+        submitPasswordBtn.addEventListener('click', async function() {
+            await attemptDecryption();
+        });
+
+        // Submit on Enter key
+        passwordInput.addEventListener('keypress', async function(e) {
+            if (e.key === 'Enter') {
+                await attemptDecryption();
+            }
+        });
+
+        async function attemptDecryption() {
+            const password = passwordInput.value;
+            const unlockBtn = document.getElementById('unlockContactBtn');
+
+            if (!unlockBtn) return;
+
+            const encryptedData = unlockBtn.dataset.encrypted;
+            const salt = unlockBtn.dataset.salt;
+            const iv = unlockBtn.dataset.iv;
+
+            if (!encryptedData || !salt || !iv) {
+                showError();
+                return;
+            }
+
+            try {
+                const decrypted = await decrypt(encryptedData, password, salt, iv);
+
+                // Replace button with decrypted content
+                const placeholder = document.querySelector('header');
+                if (placeholder) {
+                    unlockBtn.outerHTML = decrypted;
+                    passwordModal.classList.remove('active');
+                    passwordInput.value = '';
+                }
+            } catch (error) {
+                showError();
+            }
+        }
+
+        function showError() {
+            errorPopup.classList.add('active');
+
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
+            // Hide after 2 seconds
+            setTimeout(() => {
+                errorPopup.classList.remove('active');
+            }, 2000);
+
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+
+        async function decrypt(encryptedBase64, password, saltBase64, ivBase64) {
+            // Convert base64 to arrays
+            const encrypted = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+            const salt = Uint8Array.from(atob(saltBase64), c => c.charCodeAt(0));
+            const iv = Uint8Array.from(atob(ivBase64), c => c.charCodeAt(0));
+
+            // Derive key from password
+            const encoder = new TextEncoder();
+            const passwordKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+
+            const key = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                passwordKey,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['decrypt']
+            );
+
+            // Decrypt
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encrypted
+            );
+
+            return new TextDecoder().decode(decrypted);
+        }
     </script>
 </body>
 </html>

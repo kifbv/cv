@@ -1,15 +1,15 @@
-name: Generate PDF from HTML
+name: Deploy Encrypted CV
 
 on:
   push:
     branches: [ main ]
     paths:
       - 'index.html'
-      - 'generate-pdf.js'
+      - 'encrypt-inject.js'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  convert-to-pdf:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,18 +23,23 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Generate PDF from HTML
-        run: node generate-pdf.js
-
-      - name: Upload PDF to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: latest
-          name: Latest CV
-          body: Auto-generated PDF from HTML
-          files: CV_Franck_Ratier_2025.pdf
+      - name: Encrypt and inject contact details
+        run: |
+          node encrypt-inject.js index.html index-encrypted.html
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONTACT_DETAILS: ${{ secrets.CONTACT_DETAILS }}
+          ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
+
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p deploy
+          cp index-encrypted.html deploy/index.html
+          cp CNAME deploy/ 2>/dev/null || true
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          publish_branch: gh-pages
+          keep_files: false

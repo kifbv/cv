@@ -1,3 +1,8 @@
 .claude/
 node_modules/
 *.pdf
+
+# Local test files for contact details encryption
+contact-details.html
+contact-details.txt
+index-test.html
