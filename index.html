@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Franck Ratier - Platform Engineer with AWS & Kubernetes expertise">
+    <title>Franck Ratier - Platform Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @page {
+            margin: 0;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            #unlockContactBtn { display: none !important; }
+
+            /* Smaller fonts for PDF */
+            body { font-size: 10pt; }
+            h1 { font-size: 22pt !important; }
+            h2 { font-size: 16pt !important; }
+            h3 { font-size: 13pt !important; }
+            h4 { font-size: 11pt !important; }
+            p, li { font-size: 10pt !important; }
+
+            /* Reduce spacing to fit more content */
+            .container { padding: 0 !important; max-width: 100% !important; }
+            .bg-white { padding: 1rem !important; }
+            header { margin-bottom: 1rem !important; padding-bottom: 0.5rem !important; }
+            section { margin-bottom: 0.75rem !important; }
+            h3 { margin-bottom: 0.5rem !important; padding-bottom: 0.25rem !important; }
+            .mb-8 { margin-bottom: 0.75rem !important; }
+            .mb-6 { margin-bottom: 0.5rem !important; }
+            .mb-4 { margin-bottom: 0.5rem !important; }
+            .mb-3 { margin-bottom: 0.25rem !important; }
+            .mb-2 { margin-bottom: 0.25rem !important; }
+            ul { margin-top: 0.25rem !important; }
+            li { margin-bottom: 0.25rem !important; }
+
+            /* Clean background for PDF */
+            body { background: white !important; }
+            .bg-gray-50 { background: white !important; }
+            .shadow-lg { box-shadow: none !important; }
+            .rounded-lg { border-radius: 0 !important; }
+        }
+
+        /* Modal and Error Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .error-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ef4444;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 101;
+            font-weight: 600;
+        }
+
+        .error-popup.active {
+            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translate(-50%, -50%) translateX(10px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Floating Download Button -->
+    <button id="downloadBtn" class="no-print fixed top-6 right-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 z-50 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Download PDF
+    </button>
+
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="bg-white shadow-lg rounded-lg p-8 md:p-12">
+            <!-- Header - Centered -->
+            <header class="text-center mb-8 pb-8 border-b-2 border-gray-200">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Franck Ratier</h1>
+                <h2 class="text-2xl md:text-3xl text-blue-600 font-semibold mb-3">Platform Engineer</h2>
+                <button
+                    id="unlockContactBtn"
+                    class="text-blue-600 hover:text-blue-800 underline cursor-pointer transition-colors font-medium"
+                    data-encrypted="XseIKRNu4SDPT72zJzMy/OlcumTDVBDb8b3ofKwtCqQ7mhP8VF2v2yWoxI932RsDOy8HPZAF+U/nR26zsgwPye5QKdcTr80YhE6Ue3X9Z0CIG6yjBXNvAwYS9EUayDkD+hVL7mS84LOCZLPPD17Wlo8ctCSABXmf8O6gIcDDMrbLnlYwKgpz7dB3xBqFCOq4g79Q1FpDo3cHnZW1vTjuqiFLkCDR46fgOX+2OgY9tL4JfwGFdMnw86Ekary0HnXyA4i6sHDFu+LWuIsEFSH5ILkPPHEV4jhtAKjLIckBvpKPOSaL98c91QLiiY0TsecOSbwLsE9LVc6JQlL1BVKDfUFoiqXs0vLBMU68avRla/Qe4l9wg3P3cQ5l/E6bnxsxB/36ju01U37EAqMM7UOZiHTL0PZFnZ0mSGO3wIgB"
+                    data-salt="3h3CQwISkupxe4w6n91L4A=="
+                    data-iv="5YoJzfzXUXqqDI89"
+                >
+                    Click to view contact details
+                </button>
+            </header>
+
+            <!-- Personal Profile -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-300">Personal Profile</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Platform Engineer with Linux systems administration background, interested in automation,
+                    cloud native technologies and programming/scripting. Fluent in French, English, Romanian.
+                </p>
+            </section>
+
+            <!-- Professional Certifications -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-300">Professional Certifications</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    AWS & Kubernetes Certified Professional - See
+                    <a href="https://www.credly.com/users/franck-ratier/badges" target="_blank" rel="noopener noreferrer"
+                       class="text-blue-600 hover:text-blue-800 underline transition-colors">
+                        credly.com
+                    </a>
+                    for details.
+                </p>
+            </section>
+
+            <!-- Experience -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b border-gray-300">Experience</h3>
+
+                <!-- Job 1 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">Senior Cloud Engineer at TotalEnergies</h4>
+                        <span class="text-gray-600 italic">Bucharest (RO), June 2023 - Now</span>
+                    </div>
+                    <p class="text-gray-700 mb-3 leading-relaxed">
+                        Design, implement, manage, and maintain cloud infrastructure and services to support the business' objectives,
+                        ensuring the scalability, reliability, and security of cloud infrastructure.
+                    </p>
+                    <p class="text-gray-700 font-medium mb-2">Common tasks and responsibilities:</p>
+                    <ul class="list-disc list-outside ml-6 text-gray-700 space-y-2">
+                        <li>Develop and deploy cloud infrastructure in a complex hybrid (multi-cloud, on-prem, edge) infrastructure (both greenfield and on-prem migration projects).</li>
+                        <li>Monitor and manage cloud resources to ensure optimal performance and cost-efficiency following the FinOps Team's guidelines (cutting costs by up to 50% on some projects).</li>
+                        <li>Implement and maintain security measures to protect cloud infrastructure and data following the Cyber Security Team's guidelines.</li>
+                        <li>Create and manage automation scripts to streamline cloud operations and reduce manual intervention.</li>
+                        <li>Work closely with development, operations, and security teams to align cloud solutions with business requirements.</li>
+                        <li>Identify and resolve issues related to cloud infrastructure and services.</li>
+                        <li>Maintain comprehensive documentation of cloud architecture, configurations, and processes.</li>
+                        <li>Serve as the primary contact for inquiries about the cloud infrastructure and, more broadly, for any questions or training needs related to cloud services.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">Custom Software Engineering Senior Analyst at Accenture</h4>
+                        <span class="text-gray-600 italic">Bucharest (RO), November 2022 - June 2023</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        Develop, design and maintain cloud centered technologies for a leading international pharmaceutical company.
+                        Custom built solution for federated learning software implemented on Kubernetes in Azure and AWS using a
+                        GitOps approach (FluxCD, Kustomize, Helm, Crossplane...).
+                    </p>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">Professional Sabbatical</h4>
+                        <span class="text-gray-600 italic">Newhaven (UK) & Bucharest (RO), August 2019 - November 2022</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        High-End Furniture Design & Making. See my
+                        <a href="https://franckratier.design" target="_blank" rel="noopener noreferrer"
+                           class="text-blue-600 hover:text-blue-800 underline transition-colors">
+                            website
+                        </a>
+                        for details.
+                    </p>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">AWS Cloud Engineer at Rackspace</h4>
+                        <span class="text-gray-600 italic">Fully Remote, November 2017 - May 2019</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        Build engineer in Fanatical support for AWS. Review high-level design from the Architect and produce the
+                        corresponding implementation document (low-level design). Discuss the technical options with the Client and
+                        deploy the infrastructure into AWS based on the implementation document using IaC (CloudFormation, Sceptre, Terraform).
+                        Create bash tooling to decrease build time by 50%. More than 40 production environments built, for more than 30 different
+                        Clients. Daily experience with most AWS services.
+                    </p>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">DevOps / Core Systems Engineer at Brandwatch</h4>
+                        <span class="text-gray-600 italic">Brighton (UK), March 2016 - May 2017</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        Migrate office services to the cloud (Jira, Confluence, internal landing page, web design static assets).
+                        Exposure to most AWS services, in particular EC2, EBS, RDS, S3, CloudFront, ELB, VPC, ECS/ECR, API Gateway,
+                        Lambda, CloudWatch. Infrastructure-as-Code with Terraform, CloudFormation. Scripting with bash, node.js, ruby.
+                    </p>
+                </div>
+
+                <!-- Job 6 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">Linux Systems Administrator at Brandwatch</h4>
+                        <span class="text-gray-600 italic">Brighton (UK), June 2014 - March 2016</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        Build a robust, tested and deployable backup structure for the live environment with onsite, offsite and offline
+                        backups of +20 Postgresql DB dumps using Bareos (Bacula fork) and a collection of bash scripts, representing +30TB
+                        of archive/week. Ansible deployment of new hosts (i.e. servers and disk or tape based storage ones). Sensu monitoring
+                        of all hosts. Automatic restore tests. Linux Administration of 300+ servers in traditional Data Center.
+                    </p>
+                </div>
+
+                <!-- Job 7 -->
+                <div class="mb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h4 class="text-xl font-semibold text-gray-900">IT Specialist Unix at IBM</h4>
+                        <span class="text-gray-600 italic">Brno (CZ), April 2012 - May 2014</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">
+                        Responsibilities as Focal Point of the Team: management of production/daily business, management of changes,
+                        quality issues follow-up, communication with IBM's project office (CTL, SDM, DPE) and the Customer, communication
+                        within the Team. Responsibilities as Admin (AIX, HP-UX): creations & implementations of new scripts (Korn Shell, Python),
+                        maintenance of applications & production environment, batch management (TWS), backup & recovery (TSM), monitoring
+                        (BlueCare, Nagios), implementation of changes (installation/patching of customer specific applications), complete
+                        support in French language & with respect to ITIL practices, customer support on a 2 shifts schedule.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-300">Education</h3>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-900">Master's Degree</h4>
+                    <p class="text-gray-700 italic mb-1">Electronics and Computer Science</p>
+                    <p class="text-gray-700">
+                        Ingénieur en Électronique et Informatique, 2001 (Conservatoire National des Arts et Métiers, Paris, FR).
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-8 text-gray-600 text-sm">
+            <p>Last updated: January 2025</p>
+        </footer>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Enter Password</h3>
+            <p class="text-gray-600 mb-4">Please enter the password to view contact details:</p>
+            <input
+                type="password"
+                id="passwordInput"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4"
+                placeholder="Password"
+            />
+            <div class="flex gap-2 justify-end">
+                <button
+                    id="cancelBtn"
+                    class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors"
+                >
+                    Cancel
+                </button>
+                <button
+                    id="submitPasswordBtn"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+                >
+                    Unlock
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup" class="error-popup">
+        Incorrect password. Please try again.
+    </div>
+
+    <script>
+        // Download PDF button functionality - opens browser print dialog
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            window.print();
+        });
+
+        // Contact details decryption functionality
+        const passwordModal = document.getElementById('passwordModal');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitPasswordBtn = document.getElementById('submitPasswordBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const errorPopup = document.getElementById('errorPopup');
+
+        // Show modal when unlock button is clicked
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'unlockContactBtn') {
+                passwordModal.classList.add('active');
+                passwordInput.focus();
+            }
+        });
+
+        // Cancel button
+        cancelBtn.addEventListener('click', function() {
+            passwordModal.classList.remove('active');
+            passwordInput.value = '';
+        });
+
+        // Submit password
+        submitPasswordBtn.addEventListener('click', async function() {
+            await attemptDecryption();
+        });
+
+        // Submit on Enter key
+        passwordInput.addEventListener('keypress', async function(e) {
+            if (e.key === 'Enter') {
+                await attemptDecryption();
+            }
+        });
+
+        async function attemptDecryption() {
+            const password = passwordInput.value;
+            const unlockBtn = document.getElementById('unlockContactBtn');
+
+            if (!unlockBtn) return;
+
+            const encryptedData = unlockBtn.dataset.encrypted;
+            const salt = unlockBtn.dataset.salt;
+            const iv = unlockBtn.dataset.iv;
+
+            if (!encryptedData || !salt || !iv) {
+                showError();
+                return;
+            }
+
+            try {
+                const decrypted = await decrypt(encryptedData, password, salt, iv);
+
+                // Replace button with decrypted content
+                const placeholder = document.querySelector('header');
+                if (placeholder) {
+                    unlockBtn.outerHTML = decrypted;
+                    passwordModal.classList.remove('active');
+                    passwordInput.value = '';
+                }
+            } catch (error) {
+                showError();
+            }
+        }
+
+        function showError() {
+            errorPopup.classList.add('active');
+
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
+            // Hide after 2 seconds
+            setTimeout(() => {
+                errorPopup.classList.remove('active');
+            }, 2000);
+
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+
+        async function decrypt(encryptedBase64, password, saltBase64, ivBase64) {
+            // Convert base64 to arrays
+            const encrypted = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+            const salt = Uint8Array.from(atob(saltBase64), c => c.charCodeAt(0));
+            const iv = Uint8Array.from(atob(ivBase64), c => c.charCodeAt(0));
+
+            // Derive key from password
+            const encoder = new TextEncoder();
+            const passwordKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+
+            const key = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                passwordKey,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['decrypt']
+            );
+
+            // Decrypt
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encrypted
+            );
+
+            return new TextDecoder().decode(decrypted);
+        }
+    </script>
+</body>
+</html>
