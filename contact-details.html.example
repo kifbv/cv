@@ -1,0 +1,5 @@
+<div class="text-gray-600 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+    <a href="mailto:your.email@example.com" class="hover:text-blue-600 transition-colors">your.email@example.com</a>
+    <span class="hidden sm:inline">•</span>
+    <span>+1 234 567 890</span>
+</div>
