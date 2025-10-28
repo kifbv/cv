@@ -9,7 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @page {
-            margin: 0;
+            margin-top: 10mm;
+            margin-bottom: 10mm;
+            margin-left: 10mm;
+            margin-right: 10mm;
         }
 
         @media print {
@@ -43,6 +46,13 @@
             .bg-gray-50 { background: white !important; }
             .shadow-lg { box-shadow: none !important; }
             .rounded-lg { border-radius: 0 !important; }
+
+            /* Force flex containers to display as rows in print */
+            .flex.flex-col.md\:flex-row {
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: baseline !important;
+            }
         }
 
         /* Modal and Error Popup Styles */
@@ -123,6 +133,24 @@
                 <p class="text-gray-700 leading-relaxed">
                     Platform Engineer with Linux systems administration background, interested in automation,
                     cloud native technologies and programming/scripting. Fluent in French, English, Romanian.
+                </p>
+            </section>
+
+            <!-- What I Bring -->
+            <section class="mb-8">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4 pb-2 border-b border-gray-300">
+                    <h3 class="text-2xl font-bold text-gray-900">What I Bring</h3>
+                    <span class="text-gray-600 italic">
+                        <a href="https://www.ttisi.com/assessments/disc/" target="_blank" rel="noopener noreferrer"
+                           class="text-blue-600 hover:text-blue-800 underline transition-colors">
+                            DISC-validated competencies
+                        </a>
+                    </span>
+                </div>
+                <p class="text-gray-700 leading-relaxed">
+		Dynamic change agent with strong multitasking abilities and creative problem-solving skills.
+		Thrives on challenges and demonstrates tenacity in driving initiatives forward. Known for
+		identifying efficient solutions and maintaining momentum through a decisive, action-oriented approach.
                 </p>
             </section>
 
